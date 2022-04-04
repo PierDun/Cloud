@@ -11,13 +11,16 @@
     <title>Login Form</title>
 </head>
 <body>
+<div class="mx-auto" style="color: red">
+    <h7>${msg}</h7>
+</div>
 <div class="dragon-form" align="center">
     <caption>
         <h2>Please, register yourself</h2>
     </caption>
     <div class="error-msg">
     </div>
-    <form method="post" action="${pageContext.request.contextPath}/users" >
+    <form method="post" action="${pageContext.request.contextPath}/users/login" >
         <p>Login:
             <input path="login" type="text" name="login" class="form-control"/></p>
         <p>Password:

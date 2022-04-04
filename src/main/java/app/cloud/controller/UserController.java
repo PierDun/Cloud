@@ -5,12 +5,16 @@ import app.cloud.model.Users;
 import app.cloud.repository.RoleRepository;
 import app.cloud.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
-@RestController
+@Controller
 @AllArgsConstructor
 @RequestMapping("/users")
 public class UserController {
@@ -38,10 +42,16 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(HttpServletRequest request) {
+    public String login(HttpServletRequest request, Model model) {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        return "user-page";
+        try {
+            Users users = userService.getUserByLoginPassword(login, password);
+            return "user-page";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("msg", "User not found");
+            return "login-form";
+        }
     }
 
     @PostMapping("/register")
